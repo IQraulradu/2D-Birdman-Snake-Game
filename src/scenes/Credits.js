@@ -8,7 +8,7 @@ class CreditsScene extends BaseScene {
 
     this.menu = [
       {scene: null, text: 'Thank you for playing'},
-      {scene: null, text: 'Author: Readu Raul'}
+      {scene: null, text: 'Author: Radu Raul'}
     ]
   }
 
