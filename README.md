@@ -1,67 +1,15 @@
-Detalii legate de crearea jocului: 
+For the development of this captivating 2D game, I embarked on a meticulous approach, starting with the creation of detailed maps using TILED, an essential tool in the design of game spaces. Each level was conceived to offer a unique experience: level 1 was based on a single map, while level 2 was expanded by adding two distinct maps. I integrated a variety of graphic elements to enrich each scene, dividing the game environment into multiple layers, such as Platforms, Colliders, Environment, Background, Player Zones, Enemy Spawns, Collectibles, and Traps. These layers were carefully designed to include challenging paths, obstacles, and rewards, creating a dynamic landscape for the players' adventure.
 
-Am folosit un program special, TILED, pentru a crea hărțile 2D ale jocului. 
-Pentru nivelul 1, am creat o hartă, iar pentru nivelul 2, am creat două hărți distincte. 
-Pentru fiecare hartă, am utilizat diferite elemente grafice (assets). 
-În primul rând, am creat straturi (layers) pentru Platforms, Platforms_colliders, Environment, Distance, Distance_bg, Player_zones, Enemy_spawns, Collectables și Traps, atât în cadrul obiectelor (Object layer), cât și în cadrul plăcilor de tip (Tile layer) în TILED. 
-Practic, am proiectat întreaga hartă pentru a include poziționarea mobilor, zonele prin care jucătorul trebuie să treacă pentru a avansa la un nivel superior, capcanele, diamantele pentru a aduna punctaje. 
-Am importat hărțile în fișierul meu de resurse (assets) sub forma unui fișier JSON pentru a le putea utiliza ulterior. 
-Jocul l-am dezvoltat în JavaScript, am utilizat Phaser și am creat un fișier scenă unde am definit o clasă de preîncărcare (preload.js). 
-Aici am încărcat toate resursele necesare pentru joc: hărți, inamici, jucătorul, proiectile, arme, etc. 
+The game resources, including the maps, were exported in JSON format and incorporated into the development arsenal, ready to be brought to life through JavaScript code with the help of the Phaser framework. This allowed me to build a robust structure for the game, starting with a preload class where all necessary elements - from characters to visual effects - are prepared for action.
 
-În index.js,
-am definit câteva constante legate de configurarea jocului, cum ar fi lățimea și înălțimea ecranului, factorul de zoom și offset-ul hărții. 
+The game configuration was clearly defined in index.js, setting the screen dimensions and essential visual parameters, while the animations, from the characters' movements to the collectibles' effects, were meticulously created in anims.js, adding an impressive visual dimension to the game.
 
-În fișierul anims.js, 
-am definit animații legate de joc, cum ar fi lovitura, animațiile inamicilor, ale jucătorului și ale diamantelor. 
+The combat system implementation included classifying weapons into MeleeWeapons.js for direct confrontations and Projectile.js for ranged attacks, each adapted to fit the game mechanics. The collectibles, represented in collectables.js, not only provide points but also add a strategic layer to the game, encouraging exploration.
 
-Fișierul attacks include două clase: 
-MeleeWeapons.js reprezintă o armă de luptă de tip corp la corp implementată pentru jucător. 
-Projectile.js este responsabil pentru proiectile. La crearea unei instanțe a clasei, aceasta primește ca parametri scena, coordonatele x și y ale proiectilului. 
+Enemies, whether we talk about Birdman or Snaky, were equipped with raycasting techniques to offer a real challenge, each with its set of animations to reflect different states - from inactivity to elimination. The player, managed in Player.js, benefits from a wide range of movements and attacks, providing a fluid and intuitive gaming experience.
 
-Fișierul projectiles.js
-furnizează funcționalități precum obținerea și inițierea unui proiectil, având în vedere cooldown-ul între trageri și ajustarea direcției de traiectorie a proiectilului în funcție de entitatea care trage. 
+At the interface level, I introduced a health bar and a scoring system in the Hud file, essential for monitoring progress and the player's state. Additionally, I included a start menu and an end menu, enriching the narrative structure of the game and giving players a well-deserved break between levels.
 
-Fișierul collectables.js 
-definește un obiect colectabil. Primește ca parametri scena și coordonatele x și y. Obiectul efectuează o mișcare sus și jos, utilizând proprietatea yoyo, și are un scor de 1 punct. 
+Beyond gameplay, I paid special attention to the audio aspect, integrating background music and sound effects to complete the game's atmosphere, from the player's footsteps to the enemies' noises and collectibles' sounds.
 
-În fișierele effects.js și spriteEffect.js, 
-se ocupă de gestionarea și redarea efectelor vizuale asociate atunci când un obiect atinge un inamic și trebuie să se distrugă. 
-
-Fișierul entities: 
-
-Birdman.js/Snaky.js: 
-Am implementat raycasting pentru fiecare inamic. Atunci când inamicul primește daune, am adăugat o animație pentru a indica acest lucru. Când este eliminat, inamicul devine roșu și cade de pe hartă.
-În ceea ce privește Snaky, am inclus și proiectile care pot crea daune jucătorului atunci când acesta se apropie prea mult. 
-Player.js: Jucătorul poate fi controlat folosind săgețile. Apăsarea săgeții în jos îl așează în jos, tasta E declanșează atacul cu sabia, Q aruncă proiectile de gheață, iar saltul dublu este activat prin apăsarea tastei Spațiu. 
-
-Fișierul entities/anims: 
-Birdman.js/Snaky.js/Player.js:
-Am creat animații specifice pentru fiecare entitate. 
-Birdman are stările de inactivitate, rănire și alte animații relevante. 
-Snaky are animații pentru mers și starea de rănire, iar jucătorul are animații pentru starea de inactivitate, alergare, sărit, aruncare și alunecare. 
-
-Fișier Hud: 
-HealthBar.js: Am poziționat și implementat o bara de sănătate. Aceasta scade atunci când jucătorul primește daune de la inamici sau capcane. 
-Index.js: Am creat și poziționat un scor pentru a evidenția punctajul exact al jucătorului și numărul de diamante obținute. 
-
-Mixins: 
-Colidable.js: Aici am implementat funcții utile pentru gestionarea coliziunilor și detectarea razelor (raycasting). 
-Fișier Scene: 
-Play.js: Această scenă, "PlayScene", este responsabilă de gestionarea efectivă a jocului și asigurarea unei interacțiuni corecte între jucător și mediul de joc. Am implementat translații și oglindire pentru a permite mișcarea jucătorului la stânga și la dreapta + reluarea jocului  daca  o sa cazi de pe mapa sau  daca ramai fara viata. 
-
-If(left.isDown) 
-
-this.setVelocityX(-this.playerSpeed); 
-
-} else if (right.isDown) { 
-
-this.setVelocityX(this.playerSpeed); 
-
-}else { // Oprire this.setVelocityX(0); 
-
-this.setFlipX(true); // Oglindirea sprite-ului pe axa orizontală this.setFlipX(false); // Revenire la afișarea normală a sprite-ului. 
-
-BaseScene.js/Levels.js/Credits.js, am creat un meniu de inceput unde avem start/levels/exit, u button de return pentru a reveni la meniu, iar un meniu de final cu terminarea jocului. 
-
-Am implementat muzica pe fundal, efecte sonore pentru player/enemy/diamante/capcane.
+In conclusion, this 2D game is the result of a careful combination of graphic design, programming, and storytelling, each element thoughtfully designed to provide an immersive and challenging experience for players.
